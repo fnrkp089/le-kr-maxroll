@@ -1,0 +1,55 @@
+# Armor
+# Health
+Minions have +#% Chance to Inflict Bleed on Hit
+Minions have #% Increased Bleed Duration
+Effective Level for Legendary Potential: #
+LP1:#
+LP2:#
+LP3:#
+LP4:#
+Rune of Ascendancy Chance: #
+Echo Reward Drop Chance: #
+base attack rate #
+# Melee Damage
+# Necrotic Penetration
+# Minion Necrotic Penetration
+# increased Minion Damage
+# increased Minion Health
+# Chance to Apply Frailty and Slow to nearby enemies every second for Infernal Shade
+# Physical Resistance
+# Necrotic Resistance
+# Ward per Second for each Curse affecting you
+# increased Physical Damage
+# Vitality
+# to All Resistances
+# to All Attributes
+# Health Regen
+# Minion Critical Strike Multiplier
+# to Summon Skeleton
+# Chance to Chill on Hit
++#% Cold Resistance for you and your Minions
++#% Physical Resistance for you and your Minions
+# Melee Necrotic Damage
+# Endurance
+# reduced Bonus Damage Taken from Critical Strikes
+# Your maximum number of Skeletons is doubled
+# chance when one of your Skeletons dies to resummon a new one after 3 seconds
+# Void Resistance
+# Cold Resistance
+# Lightning Resistance
+# Spell Damage
+Tier 1:#
+Tier 2:#
+Tier 3:#
+Tier 4:#
+# increased Health
+# less Void Damage Taken
+# of Physical Damage Taken as Void
+# Endurance Threshold
+# Mana
+# of Health Regen also applies to Ward
+# Ward Retention
+# Spell Void Damage
+# increased Void Damage
+# increased Movement Speed
+#% Increased Shred Armor Effect

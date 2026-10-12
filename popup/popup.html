@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>LE 한글 툴팁</h1>
+    <span id="dictInfo" class="muted"></span>
+  </header>
+
+  <label class="row"><input type="checkbox" id="enabled"> 한글화 켜기</label>
+  <div class="row seg">
+    <span>용어</span>
+    <label><input type="radio" name="source" value="letrans"> LETrans</label>
+    <label><input type="radio" name="source" value="official"> 공식</label>
+  </div>
+  <label class="row"><input type="checkbox" id="dataLayer"> 게임 데이터 치환 <span class="muted">(새로고침 후 적용)</span></label>
+  <label class="row"><input type="checkbox" id="showOriginal"> 마우스 올리면 원문 보기</label>
+  <label class="row"><input type="checkbox" id="itemTitles"> 아이템 이름에 접사 칭호 붙이기</label>
+
+  <div class="note" id="note"></div>
+  <section>
+    <div class="stat"><span>데이터 치환</span><b id="dataStats">-</b></div>
+    <div class="stat"><span>미번역 문구</span><b id="missCount">0</b></div>
+    <div class="buttons">
+      <button id="exportMisses">미번역 내보내기</button>
+      <button id="clearMisses" class="ghost">비우기</button>
+    </div>
+    <div class="buttons">
+      <button id="syncDict" class="ghost">사전 업데이트 확인</button>
+    </div>
+    <div class="muted" id="dictError"></div>
+  </section>
+
+  <script src="popup.js"></script>
+</body>
+</html>

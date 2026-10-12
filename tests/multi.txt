@@ -1,0 +1,16 @@
+Target farm this item from echoes with the Unique or Set Body Armor rewards within the Blood, Frost, and Death Timeline
+You can only control one Shade
+Dread Shade has 30% increased Buff Effect and 25% increased Health Decay
+Casting Infernal Shade grants your minions Damage Immunity for 3 seconds (10 second cooldown)
+Bone Curse also inflicts Decrepify
++1 Maximum Skeleton
+You cannot summon non-Skeleton Specializable Minions
+Your Skeletons gain Frenzy and Haste for 4 seconds when summoned
+Stats on this item also apply to your minions
+Drops from Chronomancer Julra in the Temporal Sanctum Dungeon:
+Gain a stack of Void Barrier every 5 seconds while above your endurance threshold
+Each stack of Mimic Feast deals Void Damage over Time to you and disables Void Barrier generation and Health Leech
+Gain 1 stack of Mountain's Endurance each second while not moving (up to 3)
+-2 Mana Cost per stack of Mountain's Endurance
+100% of Dodge Rating converted to Endurance Threshold while you have at least 1 stack of Mountain's Endurance
+Drops from The Mountain Beneath in the Lightless Arbor Dungeon:

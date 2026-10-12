@@ -1,0 +1,291 @@
+{
+  "_comment": "맥스롤 코드가 직접 조립하는 영어 연결어 처리 규칙. # 은 수치 자리. 사전(le_ko_*.json)의 게임 문장이 항상 먼저 적용되고, 이 규칙은 거기서 못 찾은 줄에만 씀.",
+  "templates": {
+    "Rune of Ascendancy Chance: #": "초월의 룬 확률: #",
+    "Echo Reward Drop Chance: #": "메아리 보상 드랍 확률: #",
+    "Effective Level for Legendary Potential: #": "전설 잠재력 기준 레벨: #",
+    "Requires Level #": "요구 레벨 #",
+    "LP1: #": "LP1: #",
+    "LP2: #": "LP2: #",
+    "LP3: #": "LP3: #",
+    "LP4: #": "LP4: #",
+    "Tier 1: #": "1등급: #",
+    "Tier 2: #": "2등급: #",
+    "Tier 3: #": "3등급: #",
+    "Tier 4: #": "4등급: #",
+    "Tier 5: #": "5등급: #",
+    "# to All Throwing Attacks": "모든 투척 스킬 레벨 #"
+  },
+  "textPrefixes": {
+    "_comment": "등급·상태 + 기본 이름 조립용 앞 단어",
+    "Unique": "고유",
+    "Set": "세트",
+    "Legendary": "전설",
+    "Exalted": "숭고",
+    "Rare": "희귀",
+    "Magic": "마법",
+    "Normal": "일반",
+    "Primordial": "태고",
+    "Corrupted": "타락",
+    "Reforged": "재련된",
+    "Shared": "공유"
+  },
+  "prefixes": [
+    [
+      "Minions have ",
+      "하수인",
+      [
+        "{n} for Minions",
+        "Minion {n}"
+      ]
+    ],
+    [
+      "Your Minions have ",
+      "하수인",
+      [
+        "{n} for Minions",
+        "Minion {n}"
+      ]
+    ],
+    [
+      "Totems have ",
+      "토템",
+      [
+        "{n} for Totems",
+        "Totem {n}"
+      ]
+    ]
+  ],
+  "suffixes": [
+    [
+      " for you and your Minions",
+      "당신과 당신의 하수인들의",
+      [
+        "{n} for you and your minions"
+      ]
+    ],
+    [
+      " while at Full Health",
+      "최대 생명력일 때"
+    ],
+    [
+      " while at High Health",
+      "생명력이 높을 때"
+    ],
+    [
+      " while at Low Health",
+      "생명력이 낮을 때"
+    ],
+    [
+      " for totems",
+      "토템"
+    ],
+    [
+      " for 4 seconds when you use a Potion",
+      "물약 사용 시 4초간"
+    ]
+  ],
+  "reshape": [
+    {
+      "_comment": "+# to 스킬 → 스킬 레벨 / +# to 모든 저항 → 모든 저항",
+      "re": "^([+-]?)#(%?) to (.+)$",
+      "names": [
+        "Level of $3",
+        "$3 Level",
+        "$3"
+      ]
+    }
+  ],
+  "core": [
+    {
+      "re": "^([+-]?)#(%?) increased (.+)$",
+      "ko": "$3 $1#$2 증가",
+      "noun": 3
+    },
+    {
+      "re": "^([+-]?)#(%?) reduced (.+)$",
+      "ko": "$3 $1#$2 감소",
+      "noun": 3
+    },
+    {
+      "re": "^([+-]?)#(%?) more (.+)$",
+      "ko": "$3 $1#$2 증폭",
+      "noun": 3
+    },
+    {
+      "re": "^([+-]?)#(%?) less (.+)$",
+      "ko": "$3 $1#$2 감소(곱연산)",
+      "noun": 3
+    }
+  ],
+  "textRules": [
+    {
+      "_comment": "맥스롤이 이름을 끼워 조립하는 문장. $n 자리의 영어는 다시 사전에서 찾음"
+    },
+    {
+      "re": "^(.+) (\\[\\d+x\\d+\\])$",
+      "ko": "$1 $2"
+    },
+    {
+      "re": "^Requires (\\d+) points in (.+) Base Passives$",
+      "ko": "$2 기본 패시브 $1포인트 필요"
+    },
+    {
+      "re": "^Requires (\\d+) points in (.+) Passives$",
+      "ko": "$2 패시브 $1포인트 필요"
+    },
+    {
+      "re": "^Requires (.+) Mastery$",
+      "ko": "$1 숙련 필요"
+    },
+    {
+      "re": "^Requires completion of the Mastery Quest at the start of Chapter (\\d+)$",
+      "ko": "$1장 시작 지점의 숙련 퀘스트 완료 필요"
+    },
+    {
+      "re": "^Requires Class: (.+)$",
+      "ko": "요구 직업: $1"
+    },
+    {
+      "re": "^Tier: ?(\\d+)$",
+      "ko": "$1등급"
+    },
+    {
+      "re": "^Tier (\\d+)$",
+      "ko": "$1등급"
+    },
+    {
+      "re": "^Requires Level (\\d+)$",
+      "ko": "요구 레벨 $1"
+    },
+    {
+      "re": "^gains ([+-]?[\\d.,]+%?) (.+)$",
+      "ko": "$2 $1 증가"
+    },
+    {
+      "re": "^gains ([+-]?[\\d.,]+%?)$",
+      "ko": "$1 증가"
+    },
+    {
+      "re": "^(.+) \\(([+-]?[\\d.,]+%?) per point\\)$",
+      "ko": "$1 (포인트당 $2)"
+    },
+    {
+      "re": "^\\(([+-]?[\\d.,]+%?) per point\\)$",
+      "ko": "(포인트당 $1)"
+    },
+    {
+      "re": "^([+-]?[\\d.,]+%?) per point$",
+      "ko": "포인트당 $1"
+    },
+    {
+      "re": "^(.+) Scaling$",
+      "ko": "$1 증감"
+    },
+    {
+      "re": "^Drops from (.+) in the (.+) Dungeon:?$",
+      "ko": "$1 ($2 던전)에게서 획득:"
+    },
+    {
+      "re": "^Drops from (.+) in the (.+) Timeline: (.+)$",
+      "ko": "$1 ($2 시간선)에게서 획득: $3"
+    },
+    {
+      "re": "^Drops from (.+) in the (.+) Timeline:?$",
+      "ko": "$1 ($2 시간선)에게서 획득"
+    },
+    {
+      "re": "^Drops from (.+) in (.+?):?$",
+      "ko": "$1 ($2)에게서 획득:"
+    },
+    {
+      "re": "^Drops from (.+?):?$",
+      "ko": "$1에게서 획득:"
+    },
+    {
+      "re": "^Target farm this item from echoes with the (.+) rewards within (?:the )?(.+) Timeline$",
+      "ko": "$1 보상이 나오는 $2 시간선 메아리에서 타깃 파밍 가능"
+    },
+    {
+      "re": "^([+-]?[\\d.,]+%?) chance$",
+      "ko": "$1 확률"
+    },
+    {
+      "re": "^Unique or Set (.+)$",
+      "ko": "고유 또는 세트 $1"
+    },
+    {
+      "re": "^(.+) or (.+)$",
+      "ko": "$1 또는 $2"
+    }
+  ],
+  "nouns": {
+    "Range:": "범위:",
+    "Requires Level": "요구 레벨",
+    "Requires Class:": "요구 직업:",
+    "Base Passives": "기본 패시브",
+    "Weight:": "가중치:",
+    "Base values": "기본 수치",
+    "point bonus": "포인트 보너스",
+    "Multiplies your melee attack speed": "근접 공격 속도를 곱연산으로 증가시킵니다.",
+    "[alt] more information": "[alt] 추가 정보",
+    "Your minions have increased critical strike chance per point of intelligence you have.": "지능 1포인트당 하수인의 치명타 확률이 증가합니다.",
+    "Fires an arrow in a target direction": "대상 방향으로 화살을 발사합니다",
+    "Fires an arrow in a target direction.": "대상 방향으로 화살을 발사합니다.",
+    "Mace": "철퇴",
+    "Polearm": "미늘창",
+    "Sword": "검",
+    "Staff": "지팡이",
+    "Spear": "창",
+    "Scepter": "셉터",
+    "Body Armour": "갑옷",
+    "Two-Handed Staff": "양손 지팡이",
+    "Two-Handed Sword": "양손 검",
+    "One-Handed Axe": "한손 도끼",
+    "Off-Hand": "보조 장비",
+    "Your minions emit a 2 meter aura of boiling rage, dealing physical damage over time to enemies. Multiple minions with this aura can damage the same enemy.": "하수인이 2미터 반경의 끓어오르는 격노 오라를 내뿜어 적에게 지속 물리 피해를 줍니다. 이 오라를 가진 하수인 여럿이 같은 적에게 피해를 줄 수 있습니다.",
+    "Added minion spell damage applies at 100% effectiveness per second.": "추가 하수인 주문 피해가 초당 100%의 효율로 적용됩니다.",
+    "Armour Mitigation": "방어도 완화",
+    "Defenses": "방어",
+    "Tier:": "등급:",
+    "Damage From Nearby Enemies": "주위 적들에게 받는 피해",
+    "Enchants": "마법부여",
+    "When you receive an equipment item as a reward of a Rage of Morditas encounter, you will receive two additional corrupted copies.": "모르디타스의 격노 인카운터의 보상으로 장비 아이템을 받을 때, 동일한 타락한 아이템 2개를 추가로 받습니다.",
+    "Pile of Corrupted Items from Rage of Morditas": "모르디타스의 격노 타락 아이템 더미"
+  },
+  "valueText": {
+    "_comment": "수치 칸 안의 영어",
+    "^1 in (.+)$": "1/$1",
+    "^([+-]?[\\d.,]+%?) per point$": "포인트당 $1",
+    "^per point$": "포인트당"
+  },
+  "buildTerms": {
+    "_comment": "빌드 이름에 쓰는 줄임말·커뮤니티 용어. 사전보다 우선",
+    "BD": "검무가",
+    "VK": "공허기사",
+    "Hammerdin": "해머딘",
+    "Crit": "치명타",
+    "Werebear": "곰인간",
+    "Skeleton": "해골",
+    "Zombie": "좀비",
+    "Shuriken": "수리검",
+    "Swarmblade": "군체의 검",
+    "Anurok": "아누록",
+    "Melee": "근접",
+    "Guide": "가이드",
+    "Leveling": "레벨링",
+    "Build": "빌드"
+  },
+  "buildNameSelectors": [
+    "[class*='_Tierlist__tierItemText']",
+    "[class*='_titlePrimary']"
+  ],
+  "labelSelectors": [
+    "[class*='stats_StatSection'] li > span:first-child",
+    "[class*='stats_StatSection'] h3",
+    "[class*='masteries_Masteries__title']",
+    "[class*='masteries_Masteries__type']",
+    "[class*='passives_Unallocated__text']",
+    "[class*='progress_ProgressAbility__name']"
+  ]
+}

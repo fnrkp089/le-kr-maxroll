@@ -1,0 +1,9 @@
+/* 툴팁 줄의 한글 앞뒤 문구. 원래 텍스트 노드는 비워두고 여기서 그림. */
+[data-lekr-pre]::before {
+  content: attr(data-lekr-pre);
+  white-space: pre-wrap;
+}
+[data-lekr-post]::after {
+  content: attr(data-lekr-post);
+  white-space: pre-wrap;
+}

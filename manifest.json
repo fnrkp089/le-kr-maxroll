@@ -1,0 +1,74 @@
+{
+  "manifest_version": 3,
+  "name": "LE 한글 툴팁",
+  "short_name": "LE 한글",
+  "version": "0.6.0",
+  "description": "라스트 에포크 빌드 사이트(maxroll.gg)의 아이템·스킬·패시브 툴팁을 LETrans_Kr 한글 용어로 바꿔 보여줍니다.",
+  "permissions": [
+    "storage",
+    "unlimitedStorage"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "LE 한글",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://maxroll.gg/last-epoch/*"
+      ],
+      "js": [
+        "src/store.js",
+        "src/bridge.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://maxroll.gg/last-epoch/*"
+      ],
+      "js": [
+        "src/main.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://maxroll.gg/last-epoch/*"
+      ],
+      "js": [
+        "src/core.js",
+        "src/dom.js",
+        "src/toggle.js"
+      ],
+      "css": [
+        "src/dom.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "data/*.json"
+      ],
+      "matches": [
+        "https://maxroll.gg/*"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

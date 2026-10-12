@@ -1,0 +1,216 @@
+Doublet of Onos Tull
+Body Armor
+Unique Leather Coat
+Range:
+Increases your maximum health
+Requires Level
+Mod Explanations
+Mod Ranges
+Scales of Lemniscate
+Two-Handed Axe
+Unique Bone Scythe
+Multiplies your melee attack speed
+Increases the damage your minions deal
+Increases the maximum health of your minions
+This overrides other effects on your Shade limit
+Pearls of the Swine
+Amulet
+Unique Bone Amulet
+Reduces all physical damage you take. Capped at 75%.
+Reduces all necrotic damage you take. Capped at 75%.
+Increases the physical damage you deal
+Coral Ring
+Ring
+Increases the rate at which your health regenerates over time
+Hollow Finger
+Unique Turquoise Ring
+Increases the damage dealt by your critical strikes
+Affects the Acolyte's Summon Skeleton skill
+Adds necrotic damage to your melee attacks
+Only brittle skin remains.
+Unbroken Legion
+Acolyte Helmet
+Unique Revenant Mask
+Affects the limit of Skeletons for Summon Skeleton
+Only affects the Summon Skeleton skill
+Requires Class:
+Acolyte
+Julra's Obsession
+Gloves
+Unique Crusader Gauntlets
+Reduces all void damage you take. Capped at 75%.
+Reduces all cold damage you take. Capped at 75%.
+Reduces all lightning damage you take. Capped at 75%.
+Attributes on minions have no effect.
+Ravenous Void
+Unique Gluttonous Gloves
+Modifies the damage you take
+Damage converted to void before mitigation
+Vessel of Strife
+Relic
+Unique Silver Grail
+Increases your maximum mana
+Adds void damage to your spells
+Increases the void damage you deal
+Foot of the Mountain
+Boots
+Unique Iron Greaves
+Increases how quickly you can run
+All stacks are lost when you move
+Summon Skeleton
+Damage Per Second
+Mana Cost
+Scaling Tags
+Minion, Intelligence
+Minion Tags
+Physical, Melee, Bow
+Intelligence
+Scaling
+gains 16
+Health
+per point)
+increased Damage
+Level Scaling
+gains 800
+Skeletons have 100 base health.
+You will always summon the skeleton type you have the fewest of.
+Dread Shade
+Necrotic, Spell, Buff, Intelligence
+gains 4%
+Mana Efficiency
+Your maximum number of shades is shared with Infernal Shade.
+Bone Curse
+Damage
+Physical, Spell, Curse, Intelligence
+Added spell damage applies at 20% effectiveness to each hit.
+Aura Of Decay
+Cooldown
+Poison, Damage Over Time, Instant Cast, Intelligence
+Rip Blood
+Physical, Spell, Intelligence
+Increased Healing Effectiveness
+Affected by increases to Healing Effectiveness.
+Added damage is applied at 100% effectiveness.
+Transplant
+Instead of mana, this spell costs 13% of your current health.
+Physical, Spell, Movement, Intelligence
+Added damage is applied at 250% effectiveness.
+Individual Operator
+[alt] more information
+Rogue Damage per Skeleton Warrior or Archer
+per point
+does not scale with points allocated
+Max Warriors and Archers Considered
+Blood Infusion
+Blood Splatter
+Grants Minions Blood Infusion
+Fume Weaver
+Enemy Poison Resistance Per Int
+Poison Resistance Per Int
+Pernicious Pact
+Everlasting Poison
+No Longer Drains Health
+Maximum Dread Shades
+Health Drain Increases -> increased Damage Taken
+Blind Fury
+Increased Attack Speed
+Increased Cast Speed
+Critical Strike Chance
+Dread Phalanx
+Size
+Maximum Number Of Skeletons
+Forbidden Teachings
+Vitality
+point bonus
+Minion Increased Crit Chance Per Intelligence
+Minion More Damage Over Time Per Vitality
+Requires
+points in
+Necromancer
+Passives
+Base Passives
+Mastery
+Unbound Necromancy
+Summoned Skeleton Resummon Chance
+Requires completion of the Mastery Quest at the start of Chapter 4
+Tyrant's Legion
+Summoned Skeleton Physical Penetration
+Summoned Skeleton Poison Penetration
+Frantic Summons
+You and your minions have increased attack and cast speed.
+Shared Increased Attack Speed
+Shared Increased Cast Speed
+Veins of Power
+Shared Increased Physical Damage
+Shared Increased Bleed Duration
+Blood Feast
+Your minions leech a percentage of the damage they deal as health.
+Minion Damage Leeched As Health
+Increased Minion Health
+Effigies
+Damage Redirected To Lowest Health Minion
+Minion Health Restored On Minion Death
+Damage Over Time for Minions
+of Sorrow
+Base values
+Minion Damage Over Time
+Increased
+Tier
+Can be applied to:
+One-Handed Sword
+Two-Handed Sword
+One-Handed Axe
+Two-Handed Spear
+Weight:
+Scholar's
+Added
+Helmet
+Minion Damage
+Commander's
+Quiver
+Off-Hand Catalyst
+Belt
+Melee Attack Speed
+Deft
+Dagger
+One-Handed Mace
+Sceptre
+Fist
+Two-Handed Mace
+Infernal Champion's
+Minions teleported around you after you use a Traversal Skill
+Experimental Minions Transported with Traversal Skills
+Poison Immunity for Minions
+Ornate Idol
+Huge Idol
+Requires 45 points in Necromancer Passives
+Requires 20 points in Acolyte Base Passives
+Requires Necromancer Mastery
+gains 16 Health
+(8 per point)
+8% increased Damage
+(4% per point)
+Intelligence Scaling
+gains 800 Health
+Summons a skeleton warrior or skeleton archer to guard you. You are limited to 3 skeletons at a time.
+Summons a skeleton warrior or skeleton archer to guard you. You are limited to 5 skeletons at a time.
+Your minions have increased critical strike chance per point of intelligence you have.
+Manafused Exulis
+Mercurial Foot of the Mountain of the Giant
+Wraithbound Traitor's Tongue of Acid
+Rogue Adorned Idol [2x2]
+Target farm this item from echoes with the Unique or Set Axe, Mace or Polearm rewards within the The Age of Winter Timeline
+Target farm this item from echoes with the Unique or Set Amulet rewards within the Age of Winter Timeline
+Drops from Emperor of Corpses in the Reign of Dragons Timeline
+Requires 20 points in Rogue Base Passives
+Fires an arrow in a target direction
+Armour Shred Effect
+2% increased Mana Efficiency (1% per point)
+Drops from Frost Lich Formosus in the Blood, Frost, and Death Timeline: 50% chance
+Requires Class: Sentinel
+Mage Helmet
+Unique Gladiator Armor
+Sentinel Ornate Solar Idol [4x1]
+Tier: 1
+Damage From Nearby Enemies
+Enchants
