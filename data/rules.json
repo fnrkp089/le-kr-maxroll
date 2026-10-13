@@ -507,6 +507,10 @@
       "ko": "$1: $2 ~ $3"
     },
     {
+      "re": "^([A-Za-z' -]+): ([+-]?[\\d.,]+%?)$",
+      "ko": "$1: $2"
+    },
+    {
       "re": "^([A-Za-z' -]+):$",
       "ko": "$1:"
     },
@@ -577,7 +581,14 @@
     "Attributes:": "능력치:",
     "Blessings:": "축복:",
     "Quests:": "퀘스트:",
-    "Level Scaling:": "레벨 증감:"
+    "Level Scaling:": "레벨 증감:",
+    "Added from:": "추가 출처:",
+    "Increased by:": "증가 출처:",
+    "Multipliers:": "증폭 출처:",
+    "Base Value:": "기본 수치:",
+    "Uncapped value:": "비제한 수치:",
+    "Available affixes:": "붙일 수 있는 접사:",
+    "Uncapped value": "비제한 수치"
   },
   "valueText": {
     "_comment": "수치 칸 안의 영어",
@@ -621,6 +632,7 @@
     "[class*='priority_Item__'] li > span",
     "[class*='header_Header__tag']",
     ".leplanner-tooltip p > i",
+    ".leplanner-tooltip p:not(.lep-header):not(:has(i)):not(:has(span:not(.le-color-white)))",
     ".leplanner-tooltip p:not(.lep-header) > span[class*='le-color-']:not(.le-color-white)",
     ".leplanner-tooltip [class*='stats_Tag']"
   ],
