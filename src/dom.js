@@ -513,7 +513,10 @@
   setInterval(async () => {
     if (!engine.misses.size) return;
     const { misses = [] } = await chrome.storage.local.get("misses");
-    const merged = [...new Set([...misses, ...engine.misses])].slice(-3000);
+    // 사이트 UI 문구(맥스롤 버튼 등)는 번역 대상이 아니므로 내보내기에서 뺌 (rules.missIgnore)
+    const ignore = new Set(rules.missIgnore || []);
+    const fresh = [...engine.misses].filter((m) => !ignore.has(m.trim()));
+    const merged = [...new Set([...misses.filter((m) => !ignore.has(m)), ...fresh])].slice(-3000);
     engine.misses.clear();
     chrome.storage.local.set({ misses: merged });
   }, 5000);

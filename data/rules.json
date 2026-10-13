@@ -14,7 +14,8 @@
     "Tier 3: #": "3등급: #",
     "Tier 4: #": "4등급: #",
     "Tier 5: #": "5등급: #",
-    "# to All Throwing Attacks": "모든 투척 스킬 레벨 #"
+    "# to All Throwing Attacks": "모든 투척 스킬 레벨 #",
+    "# to All Melee Attacks": "모든 근접 스킬 레벨 #"
   },
   "textPrefixes": {
     "_comment": "등급·상태 + 기본 이름 조립용 앞 단어",
@@ -217,6 +218,10 @@
     {
       "re": "^(.+) or (.+)$",
       "ko": "$1 또는 $2"
+    },
+    {
+      "re": "^Unlocked by spending points in the (.+) passive tree\\.?$",
+      "ko": "$1 패시브 트리에 포인트를 사용하면 잠금 해제됩니다."
     }
   ],
   "nouns": {
@@ -251,7 +256,10 @@
     "Damage From Nearby Enemies": "주위 적들에게 받는 피해",
     "Enchants": "마법부여",
     "When you receive an equipment item as a reward of a Rage of Morditas encounter, you will receive two additional corrupted copies.": "모르디타스의 격노 인카운터의 보상으로 장비 아이템을 받을 때, 동일한 타락한 아이템 2개를 추가로 받습니다.",
-    "Pile of Corrupted Items from Rage of Morditas": "모르디타스의 격노 타락 아이템 더미"
+    "Pile of Corrupted Items from Rage of Morditas": "모르디타스의 격노 타락 아이템 더미",
+    "Maelstroms": "광풍",
+    "Tornados": "토네이도",
+    "Red Rings of Atlaria": "아틀라리아의 붉은 반지"
   },
   "valueText": {
     "_comment": "수치 칸 안의 영어",
@@ -287,5 +295,16 @@
     "[class*='masteries_Masteries__type']",
     "[class*='passives_Unallocated__text']",
     "[class*='progress_ProgressAbility__name']"
+  ],
+  "missIgnore": [
+    "Alt",
+    "Ctrl",
+    "x",
+    "Open in Planner",
+    "Select skill",
+    "Select a skill slot to specialize",
+    "Stat Priority",
+    "Alt Mod Explanations",
+    "Alt + Ctrl Mod Ranges"
   ]
 }
