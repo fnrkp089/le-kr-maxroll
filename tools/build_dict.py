@@ -74,11 +74,12 @@ def numbered(en: str, ko: str):
     """숫자가 든 문장을 숫자 자리 템플릿으로. 스킬 레벨·장비에 따라 숫자가 바뀌어도 맞추기 위함.
     한글 쪽 숫자 순서가 다를 수 있어서 같은 숫자끼리 짝지음."""
     en_n, ko_n = NUM.findall(en), NUM.findall(ko)
-    if not en_n or sorted(en_n) != sorted(ko_n) or len(set(en_n)) != len(en_n):
+    # 한글에만 있는 숫자("1포인트당")는 글자 그대로 둠. 영어 숫자는 한글에 딱 한 번씩 있어야 짝지을 수 있음
+    if not en_n or len(set(en_n)) != len(en_n) or any(ko_n.count(n) != 1 for n in en_n):
         return None
     key = NUM.sub("#", en)
     pos = {n: i for i, n in enumerate(en_n)}
-    tpl = NUM.sub(lambda m: "{%d}" % pos[m.group(0)], ko)
+    tpl = NUM.sub(lambda m: "{%d}" % pos[m.group(0)] if m.group(0) in pos else m.group(0), ko)
     return key, tpl
 
 

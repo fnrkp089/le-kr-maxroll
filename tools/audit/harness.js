@@ -113,8 +113,12 @@ async function launch({ port, profile, headless, rulesFile, extraArgs }) {
       await c.send("Page.addScriptToEvaluateOnNewDocument", { source: atStart(isolated), worldName: "lekr_isolated" });
       await c.send("Page.addScriptToEvaluateOnNewDocument", { source: atStart(src("main.js")) });
     }
-    const ev = async (expression) => {
-      const res = await c.send("Runtime.evaluate", { expression, awaitPromise: true, returnByValue: true });
+    // 페이지가 멈추면(무거운 표 페이지에서 가끔) 응답이 영영 안 오므로 시간 제한을 둠
+    const ev = async (expression, timeout) => {
+      const res = await Promise.race([
+        c.send("Runtime.evaluate", { expression, awaitPromise: true, returnByValue: true }),
+        sleep(timeout || 60000).then(() => { throw new Error("page not responding"); })
+      ]);
       if (res.exceptionDetails) throw new Error("page: " + ((res.exceptionDetails.exception && res.exceptionDetails.exception.description) || res.exceptionDetails.text));
       return res.result.value;
     };

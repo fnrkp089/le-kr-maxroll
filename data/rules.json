@@ -215,16 +215,266 @@
       "ko": "$1 확률"
     },
     {
+      "_comment": "자동 생성 (tools/auto_rules.py): 사전의 {0} 자리 문장에 이름이 들어가는 경우. 직접 고치지 말 것",
+      "auto": true
+    },
+    {
+      "re": "^can't execute block command as '(.+?)' is not a valid player\\.?$",
+      "ko": "'$1'은(는) 유효한 플레이어가 아니므로 차단 명령을 실행할 수 없습니다.",
+      "auto": true
+    },
+    {
+      "re": "^can't execute unblock command as '(.+?)' is not a valid player\\.?$",
+      "ko": "'$1'은(는) 유효한 플레이어가 아니므로 차단 해제 명령을 실행할 수 없습니다.",
+      "auto": true
+    },
+    {
+      "re": "^can't use (.+?) because this item has no forging potential\\.?$",
+      "ko": "이 아이템에는 제련 잠재력이 없어서 $1을(를) 사용할 수 없습니다.",
+      "auto": true
+    },
+    {
+      "re": "^center or zero (.+?) and press any button or wait for the timer to finish\\.?$",
+      "ko": "$1을(를) 중앙 또는 영점에 위치시키고 아무 버튼이나 누르거나, 타이머가 끝날 때까지 기다리십시오.",
+      "auto": true
+    },
+    {
+      "re": "^chance to cast (.+?) on$",
+      "ko": "$1 시전 확률 / 조건:",
+      "auto": true
+    },
+    {
+      "re": "^chance to cast (.+?) when hit$",
+      "ko": "적중당할 시 $1 시전 확률",
+      "auto": true
+    },
+    {
+      "re": "^channel (.+?) does not exist\\.?$",
+      "ko": "$1 채널이 존재하지 않습니다.",
+      "auto": true
+    },
+    {
+      "re": "^check out (.+?)\\. thank you for helping fuel last epoch development!$",
+      "ko": "$1을(를) 확인해 보십시오. 라스트 에포크 개발에 도움을 주셔서 감사합니다!",
+      "auto": true
+    },
+    {
+      "re": "^check out our (.+?)\\. thank you for helping fuel last epoch development!$",
+      "ko": "$1을(를) 확인해 보십시오. 라스트 에포크 개발에 도움을 주셔서 감사합니다!",
+      "auto": true
+    },
+    {
+      "re": "^complete the (.+?) echo to continue pursuing morditas\\.?$",
+      "ko": "$1 메아리를 완료하여 계속 모르디타스를 추격하십시오.",
+      "auto": true
+    },
+    {
+      "re": "^create new (.+?) character$",
+      "ko": "$1 캐릭터 새로 만들기",
+      "auto": true
+    },
+    {
+      "re": "^delete (.+?) character$",
+      "ko": "$1 캐릭터 삭제",
+      "auto": true
+    },
+    {
+      "re": "^effect of (.+?) on you$",
+      "ko": "나에게 적용된 $1의 효과",
+      "auto": true
+    },
+    {
+      "re": "^glyph of despair sealed (.+?) at tier$",
+      "ko": "절망의 문양으로 인해 $1 접사가 봉인되었습니다. 등급:",
+      "auto": true
+    },
+    {
+      "re": "^increased (.+?) duration$",
+      "ko": "$1 지속시간 증가",
+      "auto": true
+    },
+    {
+      "re": "^increased (.+?) effect$",
+      "ko": "$1 효과 증가",
+      "auto": true
+    },
+    {
+      "re": "^increased chance per rank to find (.+?) prophecies$",
+      "ko": "계급당 $1 예언 발견 확률 증가",
+      "auto": true
+    },
+    {
+      "re": "^last epoch © (.+?) eleventh hour games, inc\\. all rights reserved\\.?$",
+      "ko": "Last Epoch © $1 Eleventh Hour Games, Inc. 모든 권리를 보유합니다.",
+      "auto": true
+    },
+    {
+      "re": "^move (.+?) through its entire range then press any button or wait for the timer to finish\\.?$",
+      "ko": "$1을(를) 범위 한쪽 끝에서 다른 쪽 끝까지 움직인 후 아무 버튼이나 누르거나, 타이머가 끝날 때까지 기다리십시오.",
+      "auto": true
+    },
+    {
+      "re": "^multiplies your (.+?) attack speed$",
+      "ko": "$1 공격 속도에 곱해집니다.",
+      "auto": true
+    },
+    {
+      "re": "^patch (.+?) is available! please restart your game to update\\.?$",
+      "ko": "$1 패치를 적용할 수 있습니다! 업데이트를 위해 게임을 재시작해 주시기 바랍니다.",
+      "auto": true
+    },
+    {
+      "re": "^per (.+?) on the target$",
+      "ko": "대상에 걸린 $1 하나당",
+      "auto": true
+    },
+    {
+      "re": "^press a key to assign it to (.+?)\\. modifier keys may also be used\\. to assign a modifier key alone, hold it down for 1 second\\.?$",
+      "ko": "키를 눌러 $1에 할당하십시오. 수식키도 사용할 수 있습니다. 수식키를 단독으로 할당하려면 1초 동안 누르고 계십시오.",
+      "auto": true
+    },
+    {
+      "re": "^replaced with a random (.+?) item$",
+      "ko": "무작위 $1 아이템으로 교체됨",
+      "auto": true
+    },
+    {
+      "re": "^requires (.+?) mastery$",
+      "ko": "$1 숙련이 필요합니다.",
+      "auto": true
+    },
+    {
+      "re": "^select a lens to attach to the (.+?) prophecy$",
+      "ko": "$1 예언에 부착할 렌즈를 선택하십시오",
+      "auto": true
+    },
+    {
+      "re": "^select a reward for the (.+?) prophecy$",
+      "ko": "$1 예언의 보상을 선택하십시오",
+      "auto": true
+    },
+    {
+      "re": "^slay enemies until the (.+?) drops$",
+      "ko": "$1이(가) 떨어질 때까지 적 처치하기",
+      "auto": true
+    },
+    {
+      "re": "^the cosmetic won't be displayed as no item of type (.+?) is equipped in the matching slot$",
+      "ko": "꾸미기 아이템이 표시되지 않습니다. 일치하는 슬롯에 $1 유형의 아이템을 장착하고 있지 않습니다.",
+      "auto": true
+    },
+    {
+      "re": "^the forging potential will be replaced by more powerful (.+?), that has higher chance to critically success when crafting\\.?$",
+      "ko": "제련 잠재력은 더 강력한 $1으로 교체되어, 제작 시 대성공 확률이 높아집니다.",
+      "auto": true
+    },
+    {
+      "re": "^the item must have level requirement of (.+?) or below\\.?$",
+      "ko": "아이템의 레벨 조건은 $1레벨 이하여야 합니다.",
+      "auto": true
+    },
+    {
+      "re": "^this game server will restart in (.+?) minute\\.?$",
+      "ko": "이 게임 서버는 $1분 후 재시작됩니다.",
+      "auto": true
+    },
+    {
+      "re": "^this game server will restart in (.+?) minutes\\.?$",
+      "ko": "이 게임 서버는 $1분 후 재시작됩니다.",
+      "auto": true
+    },
+    {
+      "re": "^this game server will shut down in (.+?) minute for maintenance\\.?$",
+      "ko": "이 게임 서버는 $1분 후 점검을 위하여 종료됩니다.",
+      "auto": true
+    },
+    {
+      "re": "^this game server will shut down in (.+?) minutes for maintenance\\.?$",
+      "ko": "이 게임 서버는 $1분 후 점검을 위하여 종료됩니다.",
+      "auto": true
+    },
+    {
+      "re": "^this lens can only be equipped in (.+?) region$",
+      "ko": "이 렌즈는 $1 지역에서만 장착할 수 있습니다.",
+      "auto": true
+    },
+    {
+      "re": "^unlocked by spending points in the (.+?) passive tree\\.?$",
+      "ko": "$1 패시브 트리에 포인트를 사용하면 잠금 해제됩니다.",
+      "auto": true
+    },
+    {
+      "re": "^unlocks (.+?) lens for purchase from galila\\.?$",
+      "ko": "갈릴라가 판매하는 렌즈 $1개를 구매할 수 있게 됩니다.",
+      "auto": true
+    },
+    {
+      "re": "^unlocks (.+?) lenses for purchase from galila\\.?$",
+      "ko": "갈릴라가 판매하는 렌즈 $1개를 구매할 수 있게 됩니다.",
+      "auto": true
+    },
+    {
+      "re": "^unlocks (.+?) prophecy slot\\.?$",
+      "ko": "$1 예언 칸을 잠금 해제합니다.",
+      "auto": true
+    },
+    {
+      "re": "^user (.+?) added to the block list\\.?$",
+      "ko": "$1 님을 차단 목록에 추가했습니다.",
+      "auto": true
+    },
+    {
+      "re": "^user (.+?) is already added to the block list\\.?$",
+      "ko": "$1 님은 이미 차단 목록에 추가되어 있습니다.",
+      "auto": true
+    },
+    {
+      "re": "^user (.+?) is not recorded in the block list\\.?$",
+      "ko": "$1 님은 차단 목록에 기록되어 있지 않습니다.",
+      "auto": true
+    },
+    {
+      "re": "^user (.+?) removed from the block list\\.?$",
+      "ko": "$1 님을 차단 목록에서 제거했습니다.",
+      "auto": true
+    },
+    {
+      "re": "^when you directly summon a storm totem all existing totems gain (.+?) spell lightning damage for 20 seconds$",
+      "ko": "폭풍 토템을 직접 소환할 시 기존의 모든 토템이 20초 동안 주문 번개 피해 $1 획득",
+      "auto": true
+    },
+    {
+      "re": "^you are changing your personal preferred region to (.+?) \\- this setting has been saved\\.?$",
+      "ko": "선호 지역 변경: $1 - 이 설정이 저장되었습니다.",
+      "auto": true
+    },
+    {
+      "re": "^you are reporting (.+?)\\. please provide your reason below\\. thank you for making eterra a more friendly place\\.?$",
+      "ko": "$1 님을 신고합니다. 아래에 사유를 적어 주십시오. 에테라를 더 화목한 공간으로 만들어 주셔서 감사합니다.",
+      "auto": true
+    },
+    {
+      "re": "^you can purchase (.+?) new woven echoes from masque$",
+      "ko": "가면에게 새로운 엮인 메아리를 $1개 구매할 수 있습니다.",
+      "auto": true
+    },
+    {
+      "re": "^your account has been muted by a moderator\\. you will be unmuted (.+?)\\. please refer to our code of conduct for more information\\.?$",
+      "ko": "관리자가 계정을 음소거했습니다. $1 음소거가 해제됩니다. 자세한 내용은 행동 강령을 참조하여 주시기 바랍니다.",
+      "auto": true
+    },
+    {
+      "re": "^your login session will expire in (.+?) minute\\(s\\)\\.?$",
+      "ko": "$1분 후 로그인 세션이 만료됩니다.",
+      "auto": true
+    },
+    {
       "re": "^Unique or Set (.+)$",
       "ko": "고유 또는 세트 $1"
     },
     {
       "re": "^(.+) or (.+)$",
       "ko": "$1 또는 $2"
-    },
-    {
-      "re": "^Unlocked by spending points in the (.+) passive tree\\.?$",
-      "ko": "$1 패시브 트리에 포인트를 사용하면 잠금 해제됩니다."
     },
     {
       "_comment": "접사 조각 툴팁: 게임의 'Adds:'(추가하는 접사:) + 접사 줄, 적용 부위 줄임말"
@@ -240,6 +490,29 @@
     {
       "re": "^2H (.+)$",
       "ko": "양손 $1"
+    },
+    {
+      "_comment": "플래너 능력치 값 툴팁: 부위별 접사 범위, 출처 목록"
+    },
+    {
+      "re": "^Armor: ([+-]?[\\d.,]+%?) to ([+-]?[\\d.,]+%?)$",
+      "ko": "갑옷: $1 ~ $2"
+    },
+    {
+      "re": "^Armor:$",
+      "ko": "갑옷:"
+    },
+    {
+      "re": "^([A-Za-z' -]+): ([+-]?[\\d.,]+%?) to ([+-]?[\\d.,]+%?)$",
+      "ko": "$1: $2 ~ $3"
+    },
+    {
+      "re": "^([A-Za-z' -]+):$",
+      "ko": "$1:"
+    },
+    {
+      "re": "^Armou?r is only (\\S+) as effective against non-physical damage, mitigating (\\S+) of damage\\.$",
+      "ko": "방어도는 비물리 피해에는 효과가 $1로 감소하여, $2의 피해를 완화합니다."
     }
   ],
   "nouns": {
@@ -286,7 +559,25 @@
     "Bow Chance to Cast": "활 시전 확률",
     "Deals 1% more damage per 1% block chance (up to 100%), multiplicative with other modifiers).": "막기 확률 1%당 주는 피해가 1% 증폭됩니다(최대 100%, 다른 속성과 곱연산).",
     "Bone Curse has a chance to reduce enemy armor.": "뼈의 저주에 걸린 적이 적중당할 시 일정 확률로 적의 방어도를 분쇄합니다.",
-    "Bone Curse slows enemies within its area of effect": "뼈의 저주 적용 시 적이 일정 시간 동안 감속됩니다."
+    "Bone Curse slows enemies within its area of effect": "뼈의 저주 적용 시 적이 일정 시간 동안 감속됩니다.",
+    "Each point of dexterity adds 4 dodge rating and improves skills that rely on the skillfull handling of weapons": "민첩은 1포인트당 회피율을 4 추가하고, 무기를 능숙하게 다루는 능력에 의존하는 스킬을 향상시킵니다.",
+    "Required to use abilties": "능력을 사용하는 데 필요합니다.",
+    "Health gained instantly on crit.": "치명타 적중 시 즉시 획득하는 생명력입니다.",
+    "The base amount healed is 50 plus 4 times your characer level.": "기본 치유량은 50 + 캐릭터 레벨의 4배입니다.",
+    "Amulet:": "목걸이:",
+    "Belt:": "허리띠:",
+    "Boots:": "장화:",
+    "Gloves:": "장갑:",
+    "Helmet:": "투구:",
+    "Relic:": "유물:",
+    "Left Ring:": "왼쪽 반지:",
+    "Right Ring:": "오른쪽 반지:",
+    "Weapon:": "무기:",
+    "Off-Hand:": "보조 장비:",
+    "Attributes:": "능력치:",
+    "Blessings:": "축복:",
+    "Quests:": "퀘스트:",
+    "Level Scaling:": "레벨 증감:"
   },
   "valueText": {
     "_comment": "수치 칸 안의 영어",
@@ -314,7 +605,8 @@
   },
   "buildNameSelectors": [
     "[class*='_Tierlist__tierItemText']",
-    "[class*='_titlePrimary']"
+    "[class*='_titlePrimary']",
+    "[class*='header_Header__title']"
   ],
   "labelSelectors": [
     "[class*='stats_StatSection'] li > span:first-child",
@@ -322,7 +614,15 @@
     "[class*='masteries_Masteries__title']",
     "[class*='masteries_Masteries__type']",
     "[class*='passives_Unallocated__text']",
-    "[class*='progress_ProgressAbility__name']"
+    "[class*='progress_ProgressAbility__name']",
+    "[class*='skills_SkillHeader__name']",
+    "[class*='masteries_Masteries__bonus']",
+    "[class*='priority_Item__header']",
+    "[class*='priority_Item__'] li > span",
+    "[class*='header_Header__tag']",
+    ".leplanner-tooltip p > i",
+    ".leplanner-tooltip p:not(.lep-header) > span[class*='le-color-']:not(.le-color-white)",
+    ".leplanner-tooltip [class*='stats_Tag']"
   ],
   "missIgnore": [
     "Alt",
@@ -333,7 +633,8 @@
     "Select a skill slot to specialize",
     "Stat Priority",
     "Alt Mod Explanations",
-    "Alt + Ctrl Mod Ranges"
+    "Alt + Ctrl Mod Ranges",
+    "Season 5 - Rage of the Frostborn"
   ],
   "dataKeep": {
     "_comment": "데이터 계층에서 바꾸지 않을 값 (필드별 정규식). 맥스롤이 값으로 걸러내는 것: 데이터베이스 축복 Normal/Grand 필터",
