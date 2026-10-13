@@ -168,6 +168,12 @@
           if (r) return r.pre + m[2] + r.post;
         }
       }
+      // 접사 조각·재련 아이템 툴팁은 수치 대신 x를 씀: "+x Health", "x% increased Void Damage"
+      const mx = t.match(/^(.*?)([+-]?x%?)(?=\s|$)(.*)$/);
+      if (mx && /[A-Za-z]/.test(mx[1] + mx[3]) && !/[A-Za-z]$/.test(mx[1])) {
+        const r = translateLine(mx[1], mx[3], true);
+        if (r) return r.pre + mx[2] + r.post;
+      }
       // "Minion, Intelligence" 같은 태그 목록
       if (t.includes(", ")) {
         const parts = t.split(/,\s*/).map(sub);

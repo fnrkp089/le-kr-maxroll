@@ -3,7 +3,10 @@
 //   await __runAudit({ max: 60, settle: 1500, hidden: 1 }); __auditReport(1)
 // 옵션: sel(대상 선택자), max, skip(앞에서 건너뛸 개수, 여러 탭으로 나눌 때), nodedup(같은 이름도 전부),
 //       settle(툴팁이 뜬 뒤 번역 기다리는 ms), hidden(Alt 설명처럼 숨은 줄도 검사)
-// 플래너: sel '.lep-item, .lep-blessing:not(.lep-empty) img, [class*="node_Node__PkFGB"]', nodedup 1
+// 플래너: sel '.lep-PaperdollEquipment .lep-slot img.lep-image, .lep-slot-altar img.lep-image, .lep-item, .lep-blessing:not(.lep-empty) img, [class*="node_Node__PkFGB"]', nodedup 1
+//   (.lep-item은 신상 칸만 잡음. 장비는 .lep-slot 안의 img. 패시브는 숙련 버튼 [class*="masteries_Masteries__button"]을 눌러야 그 트리가 그려짐)
+// 데이터베이스 표: sel '.lep-codex-tooltip-wrapper', nodedup 1
+// 확장을 설치하지 않고 돌리려면 tools/audit/harness.js (임시 크롬에 소스 주입)
 // 스킬 트리는 __pickSkill(i)로 스킬을 고른 뒤 sel '[class*="viewer_tree-skill"] [class*="node_Node__PkFGB"]'
 // 주의: 백그라운드 탭에서도 돌도록 setTimeout 대신 MessageChannel로 기다림.
 window.__runAudit = async function (opts) {
@@ -11,7 +14,7 @@ window.__runAudit = async function (opts) {
   const tick = () => new Promise((r) => { const c = new MessageChannel(); c.port1.onmessage = () => r(); c.port2.postMessage(0); });
   const sleep = async (ms) => { const end = performance.now() + ms; while (performance.now() < end) await tick(); };
   const OK = /^(LP\d?|Alt|alt|Ctrl|ZHP|T\d|ALT|DPS|HP)$/; // 영어로 남아도 되는 약어
-  const UNIT = "밀리초|조|초|개|회|번|중첩|미터|마리|포인트|등급|레벨|명|단계|칸|스택|분|시간|일|을|를|이|가|은|는|의|에|로|으로|만|천|배|장|인|등|차|당|억|입|위|와|과|까지|씩|부터|년|째|%";
+  const UNIT = "밀리초|조|초|개|회|번|중첩|미터|마리|포인트|등급|레벨|명|단계|칸|스택|분|시간|일|을|를|이|가|은|는|의|에|로|으로|만|천|배|장|인|등|차|당|억|입|위|와|과|까지|씩|부터|년|째|보다|마다|단층|%";
   const glue = new RegExp("\\d(?!(?:" + UNIT + "))[가-힣]"); // "150하수인" 같은 붙음
   const rendered = (el) => {
     if (el.nodeType === 3) return el.nodeValue;

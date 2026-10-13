@@ -15,7 +15,10 @@
     "Tier 4: #": "4등급: #",
     "Tier 5: #": "5등급: #",
     "# to All Throwing Attacks": "모든 투척 스킬 레벨 #",
-    "# to All Melee Attacks": "모든 근접 스킬 레벨 #"
+    "# to All Melee Attacks": "모든 근접 스킬 레벨 #",
+    "# more More Damage Shock": "감전 중첩 하나당 피해 # 증폭",
+    "# more More Void Damage Time Rot": "시간 부패 중첩 하나당 공허 피해 # 증폭",
+    "# more More Void Melee Damage Doom": "파멸 중첩 하나당 근접 공허 피해 # 증폭"
   },
   "textPrefixes": {
     "_comment": "등급·상태 + 기본 이름 조립용 앞 단어",
@@ -222,6 +225,21 @@
     {
       "re": "^Unlocked by spending points in the (.+) passive tree\\.?$",
       "ko": "$1 패시브 트리에 포인트를 사용하면 잠금 해제됩니다."
+    },
+    {
+      "_comment": "접사 조각 툴팁: 게임의 'Adds:'(추가하는 접사:) + 접사 줄, 적용 부위 줄임말"
+    },
+    {
+      "re": "^Adds (.+)$",
+      "ko": "추가하는 접사: $1"
+    },
+    {
+      "re": "^1H (.+)$",
+      "ko": "한손 $1"
+    },
+    {
+      "re": "^2H (.+)$",
+      "ko": "양손 $1"
     }
   ],
   "nouns": {
@@ -259,13 +277,23 @@
     "Pile of Corrupted Items from Rage of Morditas": "모르디타스의 격노 타락 아이템 더미",
     "Maelstroms": "광풍",
     "Tornados": "토네이도",
-    "Red Rings of Atlaria": "아틀라리아의 붉은 반지"
+    "Red Rings of Atlaria": "아틀라리아의 붉은 반지",
+    "Axes": "도끼",
+    "Maces": "철퇴",
+    "Swords": "검",
+    "Scepters": "셉터",
+    "Polearms": "미늘창",
+    "Bow Chance to Cast": "활 시전 확률",
+    "Deals 1% more damage per 1% block chance (up to 100%), multiplicative with other modifiers).": "막기 확률 1%당 주는 피해가 1% 증폭됩니다(최대 100%, 다른 속성과 곱연산).",
+    "Bone Curse has a chance to reduce enemy armor.": "뼈의 저주에 걸린 적이 적중당할 시 일정 확률로 적의 방어도를 분쇄합니다.",
+    "Bone Curse slows enemies within its area of effect": "뼈의 저주 적용 시 적이 일정 시간 동안 감속됩니다."
   },
   "valueText": {
     "_comment": "수치 칸 안의 영어",
     "^1 in (.+)$": "1/$1",
     "^([+-]?[\\d.,]+%?) per point$": "포인트당 $1",
-    "^per point$": "포인트당"
+    "^per point$": "포인트당",
+    "^(\\d+) - Unobtainable$": "$1 - 획득 불가"
   },
   "buildTerms": {
     "_comment": "빌드 이름에 쓰는 줄임말·커뮤니티 용어. 사전보다 우선",
