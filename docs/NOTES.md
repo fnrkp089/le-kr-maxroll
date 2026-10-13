@@ -43,7 +43,8 @@
 3. 줄 밖 `.lep-value`: "+30 per point" → "포인트당 +30" (값 칸 전체로 먼저 시도).
 4. 나머지 텍스트 노드: `lookupText`. 플래너 메모 줄글(`.lep-RichTextEditor`)은 정확히 일치할 때만.
 5. 글자 조각이 여럿인 작은 요소: 문장째 다시 시도.
-6. `.lep-name` 칭호 떼기, `labelSelectors`(플래너 능력치 패널·트리 이름표), `buildNameSelectors`(티어리스트 빌드 이름).
+6. `.lep-name` 칭호 떼기, `labelSelectors`(플래너 능력치 패널·트리 이름표, 스킬 머리 이름, 숙련 보너스, Stat Priority, 능력치 값 툴팁), `buildNameSelectors`(티어리스트·플래너 빌드 이름).
+   선택자는 원격 `rules.json`에 있어서 사전 배포만으로 추가됨. 잘못된 CSS 선택자가 들어가면 화면 처리 전체가 멈추니 실제 페이지에서 확인하고 올릴 것.
 
 ## 3. 결정과 이유
 
@@ -78,6 +79,10 @@
 | "1% more More Damage Shock" | 맥스롤이 게임의 "more more Damage per stack of Shock"을 줄여서 조립 | `rules.json` templates에 직접 (Time Rot, Doom도) |
 | 검사 도구가 "0보다", "10마다", "5단층"을 숫자 붙음으로 잡음 | `audit.js`의 붙여도 되는 말 목록에 없음 | `UNIT`에 추가 |
 | 고친 빌드를 크롬에 자동으로 못 올림 | 크롬 155부터 `--load-extension` 막힘, 디버깅 파이프도 윈도우에서 안 붙음 | `tools/audit/harness.js`: 임시 크롬에 소스 주입 |
+| 능력치 툴팁 설명이 사전에 있는데 안 붙음 ("Each point of intelligence grants 4% …") | `build_dict.py`의 `numbered()`가 한글에만 숫자가 있는 문장("1포인트당")을 버림 | 영어 숫자가 한글에 한 번씩 있으면 짝짓고 나머지는 글자로 둠 (템플릿 +282) |
+| 플래너 고정 글자(스킬 머리 이름, 숙련 보너스, Stat Priority, 능력치 값 툴팁)가 영어 | `lep-` 클래스가 아니라 CSS 모듈 클래스·`.leplanner-tooltip`이라 화면 계층 범위 밖 | `rules.json`의 `labelSelectors`에 선택자 추가 (코드 수정 없음) |
+| 능력치 툴팁의 "Amulet:"이 콜론 없이 "목걸이"로 | 느슨한 비교가 문장부호를 무시하고 먼저 맞음 | 콜론까지 넣은 nouns("Amulet:" → "목걸이:")가 우선함 |
+| crawl.js가 끝나지 않음 | 보스 전리품 표 페이지가 여러 창 동시 실행 중 멈춰 응답이 영영 안 옴 (혼자 돌리면 괜찮음) | `harness.js`의 ev에 60초 제한 |
 | 레임툴즈와 충돌 | 둘 다 같은 글자를 바꿈 | maxroll.gg에서 레임툴즈 끄라고 안내 |
 
 맥스롤 쪽 사실:
@@ -93,23 +98,35 @@
 - 스토어 빌드(사전 없이 시작)로 원격 사전 받기까지 확인.
 - 0.6.1 (2026-10-13): 가이드 73개 전부 + 자료 글 85개 + 티어리스트 3개 + 플래너 5개 + 데이터베이스를 돌려 남은 영어를 수집.
   고친 뒤 `crawl.js`(창 5개)로 76페이지·툴팁 1,287개 재검사, 새 문제 0.
+- 사전 2026.10.13-2227: 플래너 빌드 5개 before/after. 고정 글자 영어 218/353 → 0, 능력치 값 툴팁 영어 줄 88% → 약 1%.
+  최종 규칙으로 `crawl.js` 8창: 77페이지·툴팁 1,355개, 문제 줄은 Sigils Of Hope 1건. 마지막에 넣은 "이름: 값" 규칙은 가이드 전체로 재검사하지 않음.
 
 ## 6. 작업 순서 (자주 하는 일)
 
 - **한글패치(LETrans) 새 버전 배포 후**: 워크벤치의 한글 테이블 + 영어 테이블로 `build_dict.py` → `node tests/run.js letrans` →
   `python3 tools/release.py` → `dist/dict/`를 le-kr-dict에 커밋.
-- **미번역 문구 처리**: 팝업 "미번역 내보내기" → `rules.json`의 `nouns`/`templates`/`textRules`에 추가 → 테스트 → 사전 배포.
+  사전 두 개를 만든 뒤 `python3 tools/auto_rules.py`로 이름 자리 문장 규칙을 다시 만듦 (rules.json의 `"auto": true` 항목을 지우고 새로 넣음).
+  공식 사전은 `--ko ko_dump_new`로 만들고 meta.source를 "공식 번역"으로 바꿈.
+- **미번역 문구 처리**: 팝업 "미번역 내보내기" → 먼저 작업장 테이블(`lastepoch-kr-patch_workbench-main`의 `en_dump_new` + `ko_fix_origin5`)에서 태그를 떼고 느슨하게 검색.
+  맥스롤이 줄이거나 조립한 형태("more More Damage Shock" ← "more more Damage per stack of Shock")이거나 빌더가 버린 문장인 경우가 많음.
+  그래도 없으면 `rules.json`의 `nouns`/`templates`/`textRules`에 추가 → 테스트 → 사전 배포.
 - **코드 수정 후**: `node tools/bundle.js`(release.py가 자동 실행) → manifest 버전 올림 → 스토어 패키지 탭에 zip 업로드.
 - **실제 페이지 검사**: 여러 탭에 가이드·플래너를 띄우고 탭마다 audit.js 실행(skip/max로 나눔). settle 1500ms면 충분.
   확장을 설치하지 않고 로컬 사전·고친 소스로 돌리려면 `python3 tools/release.py` 뒤 `node tools/audit/crawl.js 5` (약 13분).
 - **맥스롤이 값으로 걸러내는 문자열**: 필터가 비면 `rules.json`의 `dataKeep`에 필드와 정규식 추가 (축복 Grand 필터가 그 예).
 - **미번역 내보내기에 사이트 UI가 섞이면**: `rules.json`의 `missIgnore`에 추가.
 
+- **자동 검사 양 조절**: 맥스롤은 Cloudflare 뒤에 있음. 2026-10-13 하루에 약 600페이지를 열었고 차단은 없었지만, 전체 crawl은 배포 직전에 한 번, 창은 3~4개로.
+  캡차나 차단 화면이 보이면 그날은 자동 검사를 멈춤 (같은 IP라 평소 접속도 막힘).
+
 ## 7. 남은 일 / 아이디어
 
 - 웹스토어 심사 결과 대응 (반려 시 메일 내용 기준으로 수정).
 - 반응 좋으면 공개로 전환, 마키 프로모션 타일(1400×560) 제작.
 - 데이터베이스 페이지: 확장은 동작함. 스킬 카드 설명 약 190종(맥스롤 자체 문구), `Breakdown` 라벨이 영어. 커뮤니티 빌드 목록은 번역 대상 없음.
-- 플래너: 능력치 값 툴팁 설명, 스킬 트리 머리 이름, 숙련 "Passive bonuses" 문장, Stat Priority 모드의 이름과 짬뽕 줄("Chance to 중독 on Hit")이 영어.
+- 플래너에 남은 영어(게임 테이블에 없음): "Increases the base damage of … spells and attacks." 7종, 하수인 레벨 문장, 비껴가는 타격 설명(맥스롤 "half damage" ≠ 게임 "35% less"). Stat Priority 부위 이름·능력치 종류 선택은 사이트 UI라 둠.
+- 범위 다듬기(소유자 의견: 아이템·노드·스킬이면 충분): 자동 규칙 50개 중 게임 문장만 남기기, 범용 규칙 "이름:"·"이름: 값"을 능력치 툴팁 이름 목록으로 좁히기.
+  능력치 툴팁 소제목 6개("추가 출처:" 등)와 플래너 빌드 제목·태그는 맥스롤 UI에 가까워 빼도 됨.
+- 0.6.2 후보(코드): "비제한 수치: 81%" 값의 흰색 글자색 유지 (지금은 줄 전체를 한 번에 바꿔 색이 사라짐).
+- 데이터베이스 접사 조각은 앞 50개만 확인(48개 정상). 약 550개 전체는 미확인.
 - 게임 테이블에 원문이 없어 남은 것: Sigils Of Hope의 "Consumes all sigils…" (게임은 Symbols of Hope로 이름이 바뀜).
-- UI 테이블의 이름 자리 문장("… in the {0} passive tree.")을 `build_dict.py`가 textRules로 자동 변환하면 직접 넣을 일이 줄어듦.
