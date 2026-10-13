@@ -60,7 +60,8 @@ def paragraphs(en_raw: str, ko_raw: str):
         out = []
         for e, k in zip(en_p, ko_p):
             e, k = e.strip(), k.strip()
-            if len(e.split()) < 4:
+            # 짧은 제목성 문단은 빼되, 마침표로 끝나는 짧은 문장("Requires a shield.")은 살림
+            if len(e.split()) < 4 and not (len(e.split()) >= 2 and e.endswith(".") and k.endswith(".")):
                 continue
             if not 0.15 <= len(k) / max(1, len(e)) <= 1.5:
                 continue
@@ -87,21 +88,30 @@ RANGE = re.compile(r"\[-?[\d.]+,-?[\d.]+(?:,-?[\d.]+)?\]")
 def ranged(en: str, ko: str):
     """범위 표기 [200,350,3]를 숫자 자리로 바꿔 numbered 템플릿을 만듦 (맥스롤은 이 자리에 (200-350) 값을 그림)."""
     en_r, ko_r = RANGE.findall(en), RANGE.findall(ko)
-    if not en_r or sorted(en_r) != sorted(ko_r) or len(set(en_r)) != len(en_r):
+    if not en_r or sorted(en_r) != sorted(ko_r):
         return None
     if re.search(r"\{\d", en + ko):
         return None
-    marks = {r: str(7770001 + i) for i, r in enumerate(en_r)}
-    e2 = RANGE.sub(lambda m: marks[m.group(0)], en)
-    k2 = RANGE.sub(lambda m: marks[m.group(0)], ko)
+
+    def mark(text):
+        # 같은 범위가 두 번 나오면 나온 순서대로 짝지음
+        seen = {}
+        def sub(m):
+            n = seen.get(m.group(0), 0)
+            seen[m.group(0)] = n + 1
+            return str(7770001 + 100 * en_r.index(m.group(0)) + n)
+        return RANGE.sub(sub, text)
+
+    e2, k2 = mark(en), mark(ko)
     en_n, ko_n = NUM.findall(e2), NUM.findall(k2)
-    if sorted(en_n) != sorted(ko_n):
-        return None
     # 범위가 아닌 일반 숫자는 같은 값이 여러 번 나와도 됨 (화면에서도 같은 숫자로 나오므로)
     pos = {}
     for i, n in enumerate(en_n):
         pos.setdefault(n, i)
-    return NUM.sub("#", e2), NUM.sub(lambda m: "{%d}" % pos[m.group(0)], k2)
+    # 한글에만 있는 숫자("조화력 1당")는 글자 그대로 둠. 영어 숫자가 한글에 없으면 못 씀
+    if any(n not in ko_n for n in en_n) or sorted(n for n in ko_n if n in pos) != sorted(en_n):
+        return None
+    return NUM.sub("#", e2), NUM.sub(lambda m: "{%d}" % pos[m.group(0)] if m.group(0) in pos else m.group(0), k2)
 
 
 def clean(text: str) -> str:
