@@ -369,6 +369,8 @@
       return out.every((p) => p != null) ? out.join("") : null;
     }
 
+    const dataKeep = {};
+    for (const [field, list] of Object.entries(rules.dataKeep || {})) if (Array.isArray(list)) dataKeep[field] = list.map((re) => new RegExp(re));
     function transformData(data) {
       const result = { replaced: 0, missed: 0, titles: [], reverse: [] };
       const reverse = new Map(); // 화면에서 맥스롤이 영어 문장에 끼워 넣는 짧은 한글 → 원래 영어
@@ -391,6 +393,8 @@
               continue;
             }
             if (!DATA_FIELDS.has(key) || !value || HANGUL.test(value)) continue;
+            // 맥스롤이 값 자체로 걸러내는 문자열은 그대로 둠 (축복 "Grand " 필터). 화면 계층이 번역 (rules.dataKeep)
+            if (dataKeep[key] && dataKeep[key].some((re) => re.test(value))) continue;
             let ko = key === "statName" ? noun(value) || lookupText(value) : lookupText(value);
             // 여러 문단이면 문단별로 (게임 원문과 문단 구성이 다를 때)
             if (!ko && /\n/.test(value)) {

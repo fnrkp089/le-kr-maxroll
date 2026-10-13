@@ -306,5 +306,11 @@
     "Stat Priority",
     "Alt Mod Explanations",
     "Alt + Ctrl Mod Ranges"
-  ]
+  ],
+  "dataKeep": {
+    "_comment": "데이터 계층에서 바꾸지 않을 값 (필드별 정규식). 맥스롤이 값으로 걸러내는 것: 데이터베이스 축복 Normal/Grand 필터",
+    "displayName": [
+      "^Grand "
+    ]
+  }
 }
