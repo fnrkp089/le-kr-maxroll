@@ -106,7 +106,8 @@
 - **한글패치(LETrans) 새 버전 배포 후**: 워크벤치의 한글 테이블 + 영어 테이블로 `build_dict.py` → `node tests/run.js letrans` →
   `python3 tools/release.py` → `dist/dict/`를 le-kr-dict에 커밋.
   사전 두 개를 만든 뒤 `python3 tools/auto_rules.py`로 이름 자리 문장 규칙을 다시 만듦 (rules.json의 `"auto": true` 항목을 지우고 새로 넣음).
-  공식 사전은 `--ko ko_dump_new`로 만들고 meta.source를 "공식 번역"으로 바꿈.
+  공식 사전은 작업장 `official_snapshots/<빌드>/ko`와 `en`(`official_update_check.py`가 게임에서 뽑은 최신 공식)으로 만들고 meta.source를 "공식 번역"으로 바꿈.
+  `ko_dump_new`/`en_dump_new`는 2026-10-02 추출본이라 지금 공식과 다름. LETrans 사전의 `--en`도 같은 스냅샷 영문을 씀.
 - **미번역 문구 처리**: 팝업 "미번역 내보내기" → 먼저 작업장 테이블(`lastepoch-kr-patch_workbench-main`의 `en_dump_new` + `ko_fix_origin5`)에서 태그를 떼고 느슨하게 검색.
   맥스롤이 줄이거나 조립한 형태("more More Damage Shock" ← "more more Damage per stack of Shock")이거나 빌더가 버린 문장인 경우가 많음.
   그래도 없으면 `rules.json`의 `nouns`/`templates`/`textRules`에 추가 → 테스트 → 사전 배포.
