@@ -388,9 +388,19 @@
       }
       if (!cut) break;
     }
-    if (rest === full) return;
     // 남은 게 실제 아이템 이름일 때만 (엉뚱하게 자르지 않게)
-    if (!engine.koNames.has(rest) && !engine.lookup(rest)) return;
+    if (rest === full || (!engine.koNames.has(rest) && !engine.lookup(rest))) {
+      // 칭호 목록으로 안 떨어지는 경우: 맥스롤 목록에 없는 칭호("도적 산봉우리 - 황소"의 도적),
+      // 같은 말이 접두·접미 칭호 양쪽에 있어 "- "만 남는 경우("집게 … 신상 - 투석기").
+      // " - 접미"를 떼고 앞 단어를 두 개까지 떼어 사전에 있는 이름이 나오면 그걸 씀
+      const words = full.split(" - ")[0].trim().split(" ");
+      rest = null;
+      for (let i = 0; i <= 2 && i < words.length; i++) {
+        const cand = words.slice(i).join(" ");
+        if (engine.koNames.has(cand)) { rest = cand; break; }
+      }
+      if (!rest || rest === full) return;
+    }
     const shown = engine.koNames.has(rest) ? rest : engine.lookup(rest);
     if (nodes.length === 1) {
       setText(nodes[0], shown);
