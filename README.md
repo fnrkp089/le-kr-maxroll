@@ -4,6 +4,9 @@
 게임 한글 용어([LETrans_Kr](https://github.com/fnrkp089/LETrans_Kr) 또는 공식 번역)로 바꿔 보여주는 크롬 확장입니다.
 기계 번역이 아니라 게임 텍스트 테이블에서 뽑은 사전으로 번역합니다.
 
+크롬 번역(페이지 번역)과 함께 써도 툴팁·아이템 이름·노드는 한글 용어 그대로 유지됩니다(0.6.2부터).
+이름이 들어간 본문 문장은 번역이 다소 어색할 수 있습니다.
+
 비공식 팬 프로젝트이며 Eleventh Hour Games, Maxroll과 관련이 없습니다.
 
 ## 구조
@@ -40,6 +43,7 @@ node tests/run.js official
 ```
 
 실제 페이지 검사는 `tools/audit/audit.js` (사용법은 파일 맨 위 주석).
+크롬 번역을 켠 상태 검사는 `node tools/audit/translate.js`.
 
 ## 배포
 
