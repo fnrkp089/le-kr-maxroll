@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "LE 한글 툴팁",
   "short_name": "LE 한글",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "라스트 에포크 빌드 사이트(maxroll.gg)의 아이템·스킬·패시브 툴팁을 LETrans_Kr 한글 용어로 바꿔 보여줍니다.",
   "permissions": [
     "storage",

@@ -26,6 +26,40 @@
     ".le-skill", ".le-item", ".le-passive", ".le-affix", ".le-embed"
   ].join(",");
 
+  // 크롬 번역(구글 번역)을 누르면 우리가 바꾼 한글을 영어인 줄 알고 다시 번역해 깨뜨림.
+  // 게임 내용 칸과 툴팁에 번역 제외 표시를 해서 본문만 번역되게 함. 플래너 메모 같은 줄글은 표시하지 않음.
+  // 툴팁이 뜨자마자 붙여야 크롬보다 먼저라서, 처리 예약을 기다리지 않고 변경을 본 즉시 표시함.
+  // 본문 문장 속 이름표(스킬·아이템 이름)도 제외함. 구글은 제외 조각에서 문장을 끊어 번역하므로 그 문장은 어색해지지만,
+  // 제외하지 않으면 이름이 바뀌고("휘둘러치기" → "이벤트러치기") 이름표가 복제돼 엉뚱한 자리에 들어감 (2026-10-14 확인).
+  const NO_TRANSLATE = [TEXT_SCOPE, "[class*='_Tooltip__wrapper']"]
+    .concat(rules.labelSelectors || [], rules.buildNameSelectors || [], rules.noTranslateSelectors || []).join(",");
+  const guarded = new Set();
+  const EMBED = ".le-skill, .le-item, .le-passive, .le-affix, .le-gametip";
+  function guard(root) {
+    if (!root || root.nodeType !== 1) return;
+    const again = [];
+    const mark = (el) => {
+      if (el.closest(PROSE) && !el.closest(EMBED)) {
+        // 줄글: 제외 표시한 칸 안에서는 translate="yes"로 되살려도 구글이 번역하지 않으므로, 줄글을 품은 바깥 표시를 떼고 안쪽을 따로 표시
+        let outer;
+        while ((outer = el.closest("[translate='no']")) && guarded.has(outer)) {
+          outer.removeAttribute("translate");
+          guarded.delete(outer);
+          again.push(outer);
+        }
+        return;
+      }
+      // el.translate는 조상까지 따진 값이라 맨 바깥 요소에만 속성이 붙음
+      if (!el.translate || el.querySelector(PROSE)) return;
+      el.setAttribute("translate", "no");
+      guarded.add(el);
+    };
+    const sel = NO_TRANSLATE + "," + PROSE;
+    if (root.matches(sel)) mark(root);
+    for (const el of root.querySelectorAll(sel)) mark(el);
+    for (const el of again) guard(el);
+  }
+
   // 텍스트 노드마다 원문과 우리가 쓴 값을 기억. React가 값을 다시 쓰면 그게 새 원문.
   const original = new WeakMap();
   const written = new WeakMap();
@@ -464,6 +498,8 @@
       while ((n = walker.nextNode())) if (written.get(n) === n.nodeValue && original.has(n)) n.nodeValue = original.get(n);
     }
     touched.clear();
+    for (const el of guarded) el.removeAttribute("translate");
+    guarded.clear();
     applying = false;
   }
 
@@ -492,10 +528,14 @@
     if (applying || !cfg.enabled) return;
     for (const r of records) {
       if (r.type === "characterData") enqueue(r.target);
-      else for (const n of r.addedNodes) enqueue(n);
+      else for (const n of r.addedNodes) {
+        guard(n);
+        enqueue(n);
+      }
     }
   }).observe(document.body, { childList: true, subtree: true, characterData: true });
 
+  guard(document.body);
   process(document.body);
   window.addEventListener("lekr-titles", () => process(document.body));
 
@@ -505,7 +545,10 @@
     if (changes.itemTitles) location.reload();
     if (changes.enabled) {
       cfg.enabled = changes.enabled.newValue;
-      cfg.enabled ? process(document.body) : restoreAll();
+      if (cfg.enabled) {
+        guard(document.body);
+        process(document.body);
+      } else restoreAll();
     }
   });
 
