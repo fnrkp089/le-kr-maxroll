@@ -6,20 +6,26 @@
   const HANGUL = /[가-힣]/;
 
   // 매칭용 키: 따옴표 통일, 공백 정리, 소문자
+  // 사전을 만들 때와 번역할 때마다 불려서, 따옴표·공백을 고칠 게 없는 대부분의 문자열은 정규식 치환을 건너뜀
+  const NEEDS_CLEAN = /[‘’“”]|[^\S ]| {2}|^ | $/;
   function norm(s) {
-    return String(s)
-      .replace(/[‘’]/g, "'")
-      .replace(/[“”]/g, '"')
-      .replace(/\s+/g, " ")
-      .trim()
-      .toLowerCase()
-      .replace(/armour/g, "armor"); // 맥스롤 일부 데이터는 영국식 표기
+    s = String(s);
+    if (NEEDS_CLEAN.test(s)) {
+      s = s
+        .replace(/[‘’]/g, "'")
+        .replace(/[“”]/g, '"')
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+    s = s.toLowerCase();
+    return s.includes("armour") ? s.replace(/armour/g, "armor") : s; // 맥스롤 일부 데이터는 영국식 표기
   }
   const tnorm = (s) => norm(s).replace(/\s*#\s*/g, VALUE);
   // 맥스롤 내부 이름은 따옴표·띄어쓰기가 빠진 경우가 있음 (Apiarists Comb, IsadoraTombbinding)
   // 두 가지로 풀어서 비교: 따옴표만 뺀 것 / 소유격 's까지 뺀 것
-  const loose = (s) => norm(s).replace(/[^a-z0-9]/g, "");
-  const looseNoPoss = (s) => norm(s).replace(/'s\b/g, "").replace(/[^a-z0-9]/g, "");
+  // …Key는 이미 norm을 거친 키에 씀. 사전이 커서(이름 약 3만 7천 개) 엔진을 만들 때 norm을 두 번 하지 않게 나눔
+  const looseKey = (k) => k.replace(/[^a-z0-9]/g, "");
+  const looseNoPossKey = (k) => k.replace(/'s\b/g, "").replace(/[^a-z0-9]/g, "");
 
   // 데이터 치환 대상 필드. 맥스롤 data.json에서 화면에 그대로 표시되는 문자열만.
   // propertyName은 맥스롤이 "X% Increased " + 이름처럼 조립하는 재료라서 빼고,
@@ -47,31 +53,39 @@
     rules = rules || {};
     // 아이템 이름의 접사 칭호(활달한 ~ - 거인)를 붙일지. 기본은 LE Tools처럼 고유 이름만.
     const withTitles = !!(opts && opts.itemTitles);
-    const names = toMap(dict.names);
+    // 사전 키는 norm을 한 번만 해서 정확 비교 표와 단어 묶음 표(단어 순서만 다른 경우)를 같이 만듦
+    const bag = (s) => norm(s).split(" ").sort().join(" ");
+    const bagOfKey = (k) => k.split(" ").sort().join(" ");
+    function mapWithBag(src, bags) {
+      const m = new Map();
+      for (const [k, v] of Object.entries(src || {})) {
+        const nk = norm(k);
+        if (!k.startsWith("_")) m.set(nk, v);
+        const n = k.split(" ").length;
+        if (n < 2 || n > 6) continue;
+        const b = bagOfKey(nk);
+        bags.set(b, bags.has(b) && bags.get(b) !== v ? null : v); // 같은 단어 묶음이 여러 뜻이면 쓰지 않음
+      }
+      return m;
+    }
+    const bagNames = new Map();
+    const bagSlotted = new Map();
+    const names = mapWithBag(dict.names, bagNames);
     for (const [k, v] of toMap(rules.nouns)) if (!names.has(k)) names.set(k, v);
     const looseNames = new Map();
     for (const [k, v] of names) {
-      for (const l of [loose(k), looseNoPoss(k)]) if (l.length >= 6 && !looseNames.has(l)) looseNames.set(l, v);
+      for (const l of [looseKey(k), looseNoPossKey(k)]) if (l.length >= 6 && !looseNames.has(l)) looseNames.set(l, v);
     }
-    const looseGet = (k) => looseNames.get(loose(k)) || looseNames.get(looseNoPoss(k));
+    const looseGet = (k) => {
+      const n = norm(k);
+      return looseNames.get(looseKey(n)) || looseNames.get(looseNoPossKey(n));
+    };
     // "Unique Leather Coat"처럼 등급 + 기본 이름으로 조립된 문자열의 앞 단어
     const textPrefixes = toMap(rules.textPrefixes);
     const numbered = toMap(dict.numbered); // "skeletons have # base health." → "해골의 기본 생명력은 {0}입니다."
     const stats = toMap(dict.stats);
-    const bag = (s) => norm(s).split(" ").sort().join(" ");
-    const bagNames = new Map();
-    const bagSlotted = new Map();
-    const fillBag = (src, dst) => {
-      for (const [k, v] of Object.entries(src || {})) {
-        const n = k.split(" ").length;
-        if (n < 2 || n > 6) continue;
-        const b = bag(k);
-        dst.set(b, dst.has(b) && dst.get(b) !== v ? null : v); // 같은 단어 묶음이 여러 뜻이면 쓰지 않음
-      }
-    };
-    fillBag(dict.names, bagNames);
-    fillBag(dict.slotted, bagSlotted); // 속성 문맥에서 우선하는 표기 (예: Armor → 방어도)
-    const slotted = toMap(dict.slotted); // "Increased Bleed Duration" → "출혈 지속시간 # 증가"
+    // 속성 문맥에서 우선하는 표기 (예: Armor → 방어도)
+    const slotted = mapWithBag(dict.slotted, bagSlotted); // "Increased Bleed Duration" → "출혈 지속시간 # 증가"
     const templates = toMap(dict.templates, tnorm);
     for (const [k, v] of toMap(rules.templates, tnorm)) if (!templates.has(k)) templates.set(k, v);
 

@@ -8,7 +8,7 @@
   let cfg = await chrome.storage.local.get(defaults);
   if (!cfg.enabled) return;
 
-  const { dictText, rulesText } = await globalThis.LEKR_STORE.load(cfg.source);
+  const { dictText, rulesText } = await globalThis.LEKR_STORE.take(cfg.source);
   if (!dictText || !rulesText) {
     console.warn("[LE 한글] 번역 사전을 아직 받지 못했어요. 인터넷 연결을 확인하고 새로고침하세요.");
     return;
@@ -64,7 +64,6 @@
   const original = new WeakMap();
   const written = new WeakMap();
   const touched = new Set();
-  let applying = false;
 
   // 화면에 직접 쓰는 번역문에선 {용어} 표시를 뗌 (맥스롤의 강조 처리를 거치지 않으므로). {0} 같은 숫자 자리는 둠
   const unbrace = (s) => (s == null ? s : String(s).replace(/\{([^{}]*[^\d{}\s][^{}]*)\}/g, "$1"));
@@ -458,7 +457,6 @@
 
   function process(root) {
     if (!cfg.enabled || !root || root.nodeType !== 1) return;
-    applying = true;
     try {
       const lines = root.matches(LINE) ? [root] : root.querySelectorAll(LINE);
       for (const el of lines) if (!translateLine(el) && !translateLinked(el)) translateBlock(el);
@@ -490,12 +488,11 @@
         for (const el of builds) translateBuildName(el);
       }
     } finally {
-      applying = false;
+      ignoreOwn();
     }
   }
 
   function restoreAll() {
-    applying = true;
     for (const el of touched) {
       delete el.dataset.lekrBlock;
       delete el.dataset.lekrLinked;
@@ -510,7 +507,14 @@
     touched.clear();
     for (const el of guarded) el.removeAttribute("translate");
     guarded.clear();
-    applying = false;
+    ignoreOwn();
+  }
+
+  // 우리가 방금 바꾼 글자로 생긴 변경 기록은 버림. 변경 알림은 처리가 끝난 뒤에 오므로 플래그로는 못 막음.
+  // 안 버리면 두 처리가 같은 노드를 번갈아 쓰는 곳(가이드의 플래너 "7 Unspent Points": translateTexts가 " 미사용 포인트",
+  // translateLabel이 "")에서 처리 → 변경 → 처리가 끝없이 돌아 페이지가 계속 바빠짐 (초당 약 1만 6천 번, 2026-10-14 확인)
+  function ignoreOwn() {
+    if (observer) observer.takeRecords();
   }
 
   // 변경된 부분만 모아서 프레임마다 한 번 처리
@@ -534,8 +538,8 @@
     }
   }
 
-  new MutationObserver((records) => {
-    if (applying || !cfg.enabled) return;
+  const observer = new MutationObserver((records) => {
+    if (!cfg.enabled) return;
     for (const r of records) {
       if (r.type === "characterData") enqueue(r.target);
       else for (const n of r.addedNodes) {
@@ -543,7 +547,8 @@
         enqueue(n);
       }
     }
-  }).observe(document.body, { childList: true, subtree: true, characterData: true });
+  });
+  observer.observe(document.body, { childList: true, subtree: true, characterData: true });
 
   guard(document.body);
   process(document.body);
@@ -569,8 +574,11 @@
     // 사이트 UI 문구(맥스롤 버튼 등)는 번역 대상이 아니므로 내보내기에서 뺌 (rules.missIgnore)
     const ignore = new Set(rules.missIgnore || []);
     const fresh = [...engine.misses].filter((m) => !ignore.has(m.trim()));
-    const merged = [...new Set([...misses.filter((m) => !ignore.has(m)), ...fresh])].slice(-3000);
     engine.misses.clear();
+    // 새 문구가 없으면 쓰지 않음. 쓸 때마다 열린 맥스롤 탭 전부에 변경 알림이 감
+    const known = new Set(misses);
+    if (fresh.every((m) => known.has(m))) return;
+    const merged = [...new Set([...misses.filter((m) => !ignore.has(m)), ...fresh])].slice(-3000);
     chrome.storage.local.set({ misses: merged });
   }, 5000);
 })();

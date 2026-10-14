@@ -11,7 +11,8 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..", "..");
-const EXT = path.join(ROOT, "dist", "dev", "le-kr-maxroll");
+// LEKR_EXT로 다른 소스 폴더를 줄 수 있음 (고치기 전·후 비교, perf.js)
+const EXT = process.env.LEKR_EXT ? path.resolve(process.env.LEKR_EXT) : path.join(ROOT, "dist", "dev", "le-kr-maxroll");
 const CHROME = process.env.CHROME || "C:/Program Files/Google/Chrome/Application/chrome.exe";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const src = (f) => fs.readFileSync(path.join(EXT, "src", f), "utf8");
@@ -94,13 +95,14 @@ async function launch({ port, profile, headless, rulesFile, extraArgs }) {
   // document_start 흉내: <html>이 생긴 직후, 맨 위 프레임의 maxroll.gg에서만
   const atStart = (body) => "(() => { if (window !== window.top || location.hostname !== 'maxroll.gg') return; const run = () => {\n" + body + "\n}; if (document.documentElement) run(); else new MutationObserver((_, o) => { if (document.documentElement) { o.disconnect(); run(); } }).observe(document, { childList: true }); })();";
 
-  // opts: noExtension(확장 없이 원본 페이지), wait(로딩 대기 ms)
+  // opts: noExtension(확장 없이 원본 페이지), wait(로딩 대기 ms), startScript(페이지 쪽에 먼저 넣을 스크립트, 측정용), beforeNavigate(c)
   async function open(url, opts) {
     opts = opts || {};
     const t = await fetch(base + "/json/new?about:blank", { method: "PUT" }).then((r) => r.json());
     const c = await connect(t.webSocketDebuggerUrl);
     await c.send("Page.enable");
     await c.send("Runtime.enable");
+    if (opts.startScript) await c.send("Page.addScriptToEvaluateOnNewDocument", { source: opts.startScript });
     if (!opts.noExtension) {
       await c.send("Fetch.enable", { patterns: [{ urlPattern: "*://maxroll.gg/__lekr/*" }] });
       c.on((m) => {
@@ -122,9 +124,10 @@ async function launch({ port, profile, headless, rulesFile, extraArgs }) {
       if (res.exceptionDetails) throw new Error("page: " + ((res.exceptionDetails.exception && res.exceptionDetails.exception.description) || res.exceptionDetails.text));
       return res.result.value;
     };
+    if (opts.beforeNavigate) await opts.beforeNavigate(c);
     await c.send("Page.navigate", { url });
     await sleep(opts.wait || 10000);
-    return { ev, close: async () => { c.close(); await fetch(base + "/json/close/" + t.id).catch(() => {}); } };
+    return { ev, cdp: c, close: async () => { c.close(); await fetch(base + "/json/close/" + t.id).catch(() => {}); } };
   }
   return { version: ver.Browser, open, close: async () => { try { await root.send("Browser.close"); } catch (_) {} } };
 }
